@@ -1,0 +1,147 @@
+{
+  "format_version": "1.0",
+  "category": "distractor",
+  "cases": [
+    {
+      "id": "dist-001",
+      "query": {
+        "id": "q-dist-001",
+        "text": "What programming language was Unix rewritten in during 1973?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "dist-001-d1",
+            "content": "Python was created by Guido van Rossum and first released in 1991. It emphasizes code readability and uses indentation to define code structure instead of braces.",
+            "metadata": {"role": "distractor", "topic": "python"}
+          },
+          "score": 0.87,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "dist-001-d2",
+            "content": "Java was designed by James Gosling at Sun Microsystems and released in 1995. Its write-once-run-anywhere design enabled cross-platform application development.",
+            "metadata": {"role": "distractor", "topic": "java"}
+          },
+          "score": 0.79,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "dist-001-d3",
+            "content": "FORTRAN, developed by IBM in the 1950s, was the first high-level programming language and was extensively used for scientific and engineering computations.",
+            "metadata": {"role": "distractor", "topic": "fortran"}
+          },
+          "score": 0.73,
+          "rank": 3
+        },
+        {
+          "document": {
+            "id": "dist-001-d4",
+            "content": "The C programming language was developed by Dennis Ritchie at Bell Labs. Unix was rewritten in C in 1973, making it the first operating system implemented in a high-level language.",
+            "metadata": {"role": "answer", "topic": "unix-c"}
+          },
+          "score": 0.61,
+          "rank": 4
+        }
+      ],
+      "relevant_doc_ids": ["dist-001-d4"],
+      "expected_answer": "C"
+    },
+    {
+      "id": "dist-002",
+      "query": {
+        "id": "q-dist-002",
+        "text": "Who invented the World Wide Web?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "dist-002-d1",
+            "content": "ARPANET, developed in the 1960s by the US Defense Department, was the precursor to the internet and was designed to maintain communications even after a nuclear attack.",
+            "metadata": {"role": "distractor", "topic": "internet-history"}
+          },
+          "score": 0.85,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "dist-002-d2",
+            "content": "Ray Tomlinson is credited with inventing email in 1971, choosing the at-sign to separate usernames from host names in the first networked messaging system.",
+            "metadata": {"role": "distractor", "topic": "email"}
+          },
+          "score": 0.77,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "dist-002-d3",
+            "content": "HTTP, the Hypertext Transfer Protocol, defines how browsers and web servers communicate. HTTP/2 and HTTP/3 deliver major performance improvements over the original specification.",
+            "metadata": {"role": "distractor", "topic": "http"}
+          },
+          "score": 0.71,
+          "rank": 3
+        },
+        {
+          "document": {
+            "id": "dist-002-d4",
+            "content": "Tim Berners-Lee invented the World Wide Web in 1989 while working at CERN, proposing a system of hyperlinked documents to help physicists share information across different computers.",
+            "metadata": {"role": "answer", "topic": "www-invention"}
+          },
+          "score": 0.58,
+          "rank": 4
+        }
+      ],
+      "relevant_doc_ids": ["dist-002-d4"],
+      "expected_answer": "Tim Berners-Lee"
+    },
+    {
+      "id": "dist-003",
+      "query": {
+        "id": "q-dist-003",
+        "text": "What element has the chemical symbol Fe on the periodic table?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "dist-003-d1",
+            "content": "Gold, with the chemical symbol Au derived from the Latin word aurum, is a dense yellow metal prized for its rarity, malleability, and resistance to corrosion.",
+            "metadata": {"role": "distractor", "topic": "gold"}
+          },
+          "score": 0.83,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "dist-003-d2",
+            "content": "Silver, chemical symbol Ag from the Latin argentum, is a lustrous transition metal used in jewelry, electrical contacts, and as an antimicrobial coating in medical devices.",
+            "metadata": {"role": "distractor", "topic": "silver"}
+          },
+          "score": 0.76,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "dist-003-d3",
+            "content": "The periodic table was organized by Dmitri Mendeleev in 1869, arranging elements by atomic weight and revealing repeating patterns in their chemical properties.",
+            "metadata": {"role": "distractor", "topic": "periodic-table-history"}
+          },
+          "score": 0.68,
+          "rank": 3
+        },
+        {
+          "document": {
+            "id": "dist-003-d4",
+            "content": "Iron, with the chemical symbol Fe from the Latin ferrum, is the most common element on Earth by mass and the primary component of steel alloys widely used in construction.",
+            "metadata": {"role": "answer", "topic": "iron"}
+          },
+          "score": 0.57,
+          "rank": 4
+        }
+      ],
+      "relevant_doc_ids": ["dist-003-d4"],
+      "expected_answer": "Iron"
+    }
+  ]
+}
