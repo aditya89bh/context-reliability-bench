@@ -6,7 +6,22 @@ build-backend = "setuptools.backends.legacy:build"
 name = "context-reliability-bench"
 version = "0.1.0"
 description = "A benchmark for evaluating context reliability in language models"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Aditya", email = "aditya89bh@gmail.com" }]
 requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+    "mypy>=1.10",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
