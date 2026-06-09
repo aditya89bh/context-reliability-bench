@@ -1,0 +1,120 @@
+{
+  "format_version": "1.0",
+  "category": "temporal_relevance",
+  "cases": [
+    {
+      "id": "temp-001",
+      "query": {
+        "id": "q-temp-001",
+        "text": "What is the current classification of Pluto in the solar system?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "temp-001-d1",
+            "content": "Pluto is the ninth planet in our solar system, discovered by Clyde Tombaugh in 1930. It orbits the Sun beyond Neptune at an average distance of 5.9 billion kilometers.",
+            "metadata": {"year": "1990", "status": "outdated"}
+          },
+          "score": 0.91,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "temp-001-d2",
+            "content": "In August 2006, the International Astronomical Union voted to reclassify Pluto. It no longer meets the three criteria for full planetary status and is now called a dwarf planet.",
+            "metadata": {"year": "2006", "status": "transition"}
+          },
+          "score": 0.87,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "temp-001-d3",
+            "content": "Pluto is classified as a dwarf planet and the largest known trans-Neptunian object in the Kuiper Belt. NASA's New Horizons mission completed its flyby in July 2015, revealing mountains and nitrogen ice plains.",
+            "metadata": {"year": "2015", "status": "current"}
+          },
+          "score": 0.79,
+          "rank": 3
+        }
+      ],
+      "relevant_doc_ids": ["temp-001-d3"],
+      "expected_answer": "dwarf planet"
+    },
+    {
+      "id": "temp-002",
+      "query": {
+        "id": "q-temp-002",
+        "text": "What is the recommended daily vitamin D intake for healthy adults?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "temp-002-d1",
+            "content": "The recommended daily intake of vitamin D is 200 IU for adults up to age 50, based on the 1997 Dietary Reference Intakes established by the National Academy of Sciences.",
+            "metadata": {"year": "1997", "status": "outdated"}
+          },
+          "score": 0.88,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "temp-002-d2",
+            "content": "The 2010 Institute of Medicine report revised vitamin D recommendations upward to 600 IU daily for adults aged 1 to 70 and 800 IU for those over 70 years of age.",
+            "metadata": {"year": "2010", "status": "superseded"}
+          },
+          "score": 0.81,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "temp-002-d3",
+            "content": "Current Endocrine Society guidelines recommend 1500 to 2000 IU of vitamin D daily for adults at risk of deficiency, with a tolerable upper intake level of 4000 IU per day.",
+            "metadata": {"year": "2023", "status": "current"}
+          },
+          "score": 0.74,
+          "rank": 3
+        }
+      ],
+      "relevant_doc_ids": ["temp-002-d3"],
+      "expected_answer": "1500 to 2000 IU"
+    },
+    {
+      "id": "temp-003",
+      "query": {
+        "id": "q-temp-003",
+        "text": "What is the estimated total human population on Earth?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "temp-003-d1",
+            "content": "The world population reached 6 billion in October 1999, marking a milestone in human population growth that had doubled in just 40 years since 1960.",
+            "metadata": {"year": "1999", "status": "outdated"}
+          },
+          "score": 0.89,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "temp-003-d2",
+            "content": "Global population surpassed 7 billion people in October 2011, with the United Nations projecting continued growth driven primarily by increases in sub-Saharan Africa.",
+            "metadata": {"year": "2011", "status": "superseded"}
+          },
+          "score": 0.84,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "temp-003-d3",
+            "content": "The world population reached 8 billion in November 2022. UN projections estimate approximately 9.7 billion by 2050, with population growth slowing as fertility rates decline globally.",
+            "metadata": {"year": "2022", "status": "current"}
+          },
+          "score": 0.76,
+          "rank": 3
+        }
+      ],
+      "relevant_doc_ids": ["temp-003-d3"],
+      "expected_answer": "8 billion"
+    }
+  ]
+}
