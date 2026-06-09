@@ -1,0 +1,138 @@
+{
+  "format_version": "1.0",
+  "category": "noise_resistance",
+  "cases": [
+    {
+      "id": "nr-001",
+      "query": {
+        "id": "q-nr-001",
+        "text": "What is the boiling point of water at standard atmospheric pressure?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "nr-001-d1",
+            "content": "Ocean currents are driven by differences in water temperature and salinity, creating complex global circulation patterns that regulate climate across the world's seas.",
+            "metadata": {"noise_level": "high", "topic": "oceanography"}
+          },
+          "score": 0.84,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "nr-001-d2",
+            "content": "Barometric pressure varies with altitude and weather systems, affecting aviation, weather forecasting, and human physiology at different elevations above sea level.",
+            "metadata": {"noise_level": "high", "topic": "meteorology"}
+          },
+          "score": 0.76,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "nr-001-d3",
+            "content": "Culinary techniques such as steaming, poaching, and pressure cooking all use water to transfer heat to food, each producing different textures and flavors.",
+            "metadata": {"noise_level": "medium", "topic": "culinary"}
+          },
+          "score": 0.71,
+          "rank": 3
+        },
+        {
+          "document": {
+            "id": "nr-001-d4",
+            "content": "Water boils at 100 degrees Celsius (212 degrees Fahrenheit) at standard atmospheric pressure of one atmosphere (101.325 kPa), transitioning from liquid to vapor phase.",
+            "metadata": {"noise_level": "none", "topic": "thermodynamics"}
+          },
+          "score": 0.63,
+          "rank": 4
+        }
+      ],
+      "relevant_doc_ids": ["nr-001-d4"],
+      "expected_answer": "100 degrees Celsius"
+    },
+    {
+      "id": "nr-002",
+      "query": {
+        "id": "q-nr-002",
+        "text": "What is the chemical formula for table salt?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "nr-002-d1",
+            "content": "Salt has been a vital commodity throughout human history, used for food preservation and traded as currency in ancient civilizations including Rome and China.",
+            "metadata": {"noise_level": "high", "topic": "history"}
+          },
+          "score": 0.81,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "nr-002-d2",
+            "content": "Ocean water contains approximately 3.5 percent dissolved salts, primarily from minerals weathered from rocks and carried by rivers into the sea over millions of years.",
+            "metadata": {"noise_level": "medium", "topic": "oceanography"}
+          },
+          "score": 0.74,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "nr-002-d3",
+            "content": "Table salt is sodium chloride, with the chemical formula NaCl. It is composed of equal numbers of sodium and chloride ions arranged in a face-centered cubic crystal lattice.",
+            "metadata": {"noise_level": "none", "topic": "chemistry"}
+          },
+          "score": 0.67,
+          "rank": 3
+        }
+      ],
+      "relevant_doc_ids": ["nr-002-d3"],
+      "expected_answer": "NaCl"
+    },
+    {
+      "id": "nr-003",
+      "query": {
+        "id": "q-nr-003",
+        "text": "What organ is primarily responsible for pumping blood through the human body?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "nr-003-d1",
+            "content": "The respiratory system exchanges oxygen and carbon dioxide between air and the bloodstream through the lungs, with the diaphragm driving inhalation and exhalation.",
+            "metadata": {"noise_level": "high", "topic": "respiratory"}
+          },
+          "score": 0.79,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "nr-003-d2",
+            "content": "Red blood cells are produced in bone marrow and carry oxygen bound to hemoglobin, traveling an estimated 1000 miles through the body during their 120-day lifespan.",
+            "metadata": {"noise_level": "medium", "topic": "hematology"}
+          },
+          "score": 0.72,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "nr-003-d3",
+            "content": "Veins return deoxygenated blood to the heart while arteries carry oxygenated blood away, with microscopic capillaries enabling oxygen and nutrient exchange in every tissue.",
+            "metadata": {"noise_level": "medium", "topic": "vascular"}
+          },
+          "score": 0.68,
+          "rank": 3
+        },
+        {
+          "document": {
+            "id": "nr-003-d4",
+            "content": "The heart is the muscular organ that pumps blood throughout the body's circulatory system, beating approximately 100,000 times per day to deliver oxygen and nutrients to every cell.",
+            "metadata": {"noise_level": "none", "topic": "cardiology"}
+          },
+          "score": 0.59,
+          "rank": 4
+        }
+      ],
+      "relevant_doc_ids": ["nr-003-d4"],
+      "expected_answer": "The heart"
+    }
+  ]
+}
