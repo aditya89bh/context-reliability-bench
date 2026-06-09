@@ -11,6 +11,7 @@ from context_reliability_bench.models.benchmark_case import BenchmarkCase
 from context_reliability_bench.models.document import Document
 from context_reliability_bench.models.query import Query
 from context_reliability_bench.models.retrieved_context import RetrievedContext
+from context_reliability_bench.reports.csv_export import export_csv
 from context_reliability_bench.reports.json_export import export_json
 from context_reliability_bench.runner import run_benchmark
 
@@ -89,3 +90,51 @@ def test_json_export_multiple_metrics(tmp_path: Path) -> None:
     data = json.loads(out.read_text(encoding="utf-8"))
     assert "precision@1" in data["metrics"]
     assert "recall@1" in data["metrics"]
+
+
+# ---------------------------------------------------------------------------
+# CSV export
+# ---------------------------------------------------------------------------
+
+
+def test_csv_export_creates_file(tmp_path: Path) -> None:
+    result = run_benchmark([_simple_case()], [PrecisionAtK(k=1)])
+    out = tmp_path / "report.csv"
+    export_csv(result, out)
+    assert out.exists()
+
+
+def test_csv_export_header(tmp_path: Path) -> None:
+    result = run_benchmark([_simple_case()], [PrecisionAtK(k=1)])
+    out = tmp_path / "report.csv"
+    export_csv(result, out)
+    lines = out.read_text(encoding="utf-8").splitlines()
+    assert lines[0] == "run_id,metric,case_id,score"
+
+
+def test_csv_export_row_count(tmp_path: Path) -> None:
+    result = run_benchmark(
+        [_simple_case()],
+        [PrecisionAtK(k=1), RecallAtK(k=1)],
+        run_id="r1",
+    )
+    out = tmp_path / "report.csv"
+    export_csv(result, out)
+    lines = out.read_text(encoding="utf-8").splitlines()
+    assert len(lines) == 3  # header + 2 metric rows
+
+
+def test_csv_export_run_id_in_rows(tmp_path: Path) -> None:
+    result = run_benchmark([_simple_case()], [PrecisionAtK(k=1)], run_id="my-run")
+    out = tmp_path / "report.csv"
+    export_csv(result, out)
+    lines = out.read_text(encoding="utf-8").splitlines()
+    assert lines[1].startswith("my-run,")
+
+
+def test_csv_export_metric_name_in_rows(tmp_path: Path) -> None:
+    result = run_benchmark([_simple_case()], [RecallAtK(k=2)])
+    out = tmp_path / "report.csv"
+    export_csv(result, out)
+    lines = out.read_text(encoding="utf-8").splitlines()
+    assert "recall@2" in lines[1]
