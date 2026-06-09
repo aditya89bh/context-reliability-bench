@@ -1,0 +1,120 @@
+{
+  "format_version": "1.0",
+  "category": "contradiction",
+  "cases": [
+    {
+      "id": "cont-001",
+      "query": {
+        "id": "q-cont-001",
+        "text": "How many bones are in the adult human body?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "cont-001-d1",
+            "content": "The adult human body contains 206 bones. Infants are born with approximately 270 to 300 bones, many of which fuse together during childhood and adolescence.",
+            "metadata": {"accuracy": "correct", "source": "anatomical-reference"}
+          },
+          "score": 0.92,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "cont-001-d2",
+            "content": "The human skeleton is composed of roughly 300 bones that provide structural support, protect internal organs, and enable movement through muscle attachment points.",
+            "metadata": {"accuracy": "incorrect", "source": "general-encyclopedia"}
+          },
+          "score": 0.85,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "cont-001-d3",
+            "content": "Human bone count varies between 180 and 250 depending on age, with elderly individuals sometimes having fewer bones due to fusion and degenerative changes over time.",
+            "metadata": {"accuracy": "misleading", "source": "outdated-text"}
+          },
+          "score": 0.71,
+          "rank": 3
+        }
+      ],
+      "relevant_doc_ids": ["cont-001-d1"],
+      "expected_answer": "206 bones"
+    },
+    {
+      "id": "cont-002",
+      "query": {
+        "id": "q-cont-002",
+        "text": "What is the approximate speed of sound in air at room temperature?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "cont-002-d1",
+            "content": "Sound travels at approximately 500 meters per second through standard air at sea level, fast enough to cross a football field in under a second.",
+            "metadata": {"accuracy": "incorrect", "source": "popular-blog"}
+          },
+          "score": 0.88,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "cont-002-d2",
+            "content": "The speed of sound in dry air at 20 degrees Celsius is approximately 343 meters per second (about 1235 km/h), and it increases with temperature and humidity.",
+            "metadata": {"accuracy": "correct", "source": "physics-reference"}
+          },
+          "score": 0.83,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "cont-002-d3",
+            "content": "Sound waves propagate at around 200 meters per second through standard atmospheric air, which is roughly 1.5 million times slower than the speed of light.",
+            "metadata": {"accuracy": "incorrect", "source": "unreliable-source"}
+          },
+          "score": 0.67,
+          "rank": 3
+        }
+      ],
+      "relevant_doc_ids": ["cont-002-d2"],
+      "expected_answer": "343 meters per second"
+    },
+    {
+      "id": "cont-003",
+      "query": {
+        "id": "q-cont-003",
+        "text": "What percentage of Earth's surface is covered by water?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "cont-003-d1",
+            "content": "Approximately 50 percent of Earth's surface is covered by water, including all oceans, lakes, and rivers, which is why our planet appears blue from space.",
+            "metadata": {"accuracy": "incorrect", "source": "outdated-geography"}
+          },
+          "score": 0.86,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "cont-003-d2",
+            "content": "Over 80 percent of Earth's surface lies beneath water, with the world's oceans representing the most dominant geographic feature of our planet.",
+            "metadata": {"accuracy": "incorrect", "source": "exaggerated-claim"}
+          },
+          "score": 0.78,
+          "rank": 2
+        },
+        {
+          "document": {
+            "id": "cont-003-d3",
+            "content": "About 71 percent of Earth's surface is covered by water. The Pacific Ocean alone covers more area than all of Earth's land masses combined.",
+            "metadata": {"accuracy": "correct", "source": "national-geographic"}
+          },
+          "score": 0.69,
+          "rank": 3
+        }
+      ],
+      "relevant_doc_ids": ["cont-003-d3"],
+      "expected_answer": "71 percent"
+    }
+  ]
+}
