@@ -1,0 +1,51 @@
+{
+  "cases": [
+    {
+      "id": "case-001",
+      "query": {
+        "id": "q-001",
+        "text": "What is the capital of France?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "doc-001",
+            "content": "Paris is the capital and most populous city of France.",
+            "metadata": {"source": "geography-101"}
+          },
+          "score": 0.95,
+          "rank": 1
+        },
+        {
+          "document": {
+            "id": "doc-002",
+            "content": "France is a country in Western Europe with Paris as its capital.",
+            "metadata": {"source": "world-facts"}
+          },
+          "score": 0.80,
+          "rank": 2
+        }
+      ],
+      "expected_answer": "Paris"
+    },
+    {
+      "id": "case-002",
+      "query": {
+        "id": "q-002",
+        "text": "Who wrote Romeo and Juliet?"
+      },
+      "context": [
+        {
+          "document": {
+            "id": "doc-003",
+            "content": "Romeo and Juliet is a tragedy written by William Shakespeare.",
+            "metadata": {"source": "literature-db"}
+          },
+          "score": 0.98,
+          "rank": 1
+        }
+      ],
+      "expected_answer": "William Shakespeare"
+    }
+  ]
+}
