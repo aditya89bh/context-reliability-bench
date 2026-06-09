@@ -53,6 +53,12 @@ def test_load_sample_document_metadata() -> None:
     assert cases[0].context[0].document.metadata == {"source": "geography-101"}
 
 
+def test_load_sample_relevant_doc_ids() -> None:
+    cases = load_fixture(SAMPLE_FIXTURE)
+    assert cases[0].relevant_doc_ids == frozenset({"doc-001"})
+    assert cases[1].relevant_doc_ids == frozenset({"doc-003"})
+
+
 def test_load_sample_second_case() -> None:
     cases = load_fixture(SAMPLE_FIXTURE)
     assert cases[1].id == "case-002"
@@ -113,9 +119,21 @@ def test_load_document_missing_content(tmp_path: Path) -> None:
     payload = (
         '{"cases": [{"id": "c1", "query": {"id": "q1", "text": "q"}, '
         '"context": [{"document": {"id": "d1"}, "score": 0.9, "rank": 1}], '
-        '"expected_answer": "a"}]}'
+        '"relevant_doc_ids": ["d1"], "expected_answer": "a"}]}'
     )
     f = tmp_path / "f.json"
     f.write_text(payload, encoding="utf-8")
     with pytest.raises(FixtureError, match="content"):
+        load_fixture(f)
+
+
+def test_load_missing_relevant_doc_ids(tmp_path: Path) -> None:
+    payload = (
+        '{"cases": [{"id": "c1", "query": {"id": "q1", "text": "q"}, '
+        '"context": [{"document": {"id": "d1", "content": "c"}, '
+        '"score": 0.9, "rank": 1}], "expected_answer": "a"}]}'
+    )
+    f = tmp_path / "f.json"
+    f.write_text(payload, encoding="utf-8")
+    with pytest.raises(FixtureError, match="relevant_doc_ids"):
         load_fixture(f)

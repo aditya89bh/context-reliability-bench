@@ -26,6 +26,7 @@
           "rank": 2
         }
       ],
+      "relevant_doc_ids": ["doc-001"],
       "expected_answer": "Paris"
     },
     {
@@ -45,6 +46,7 @@
           "rank": 1
         }
       ],
+      "relevant_doc_ids": ["doc-003"],
       "expected_answer": "William Shakespeare"
     }
   ]

@@ -11,4 +11,5 @@ class BenchmarkCase:
     id: str
     query: Query
     context: tuple[RetrievedContext, ...]
+    relevant_doc_ids: frozenset[str]
     expected_answer: str

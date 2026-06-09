@@ -24,6 +24,17 @@ def validate_benchmark_case(case: BenchmarkCase) -> None:
     _validate_context_ranks(case.context)
     for rc in case.context:
         _validate_retrieved_context(rc)
+    if not case.relevant_doc_ids:
+        raise ValidationError(
+            "BenchmarkCase.relevant_doc_ids must not be empty"
+        )
+    context_doc_ids = frozenset(rc.document.id for rc in case.context)
+    unknown = case.relevant_doc_ids - context_doc_ids
+    if unknown:
+        ids = ", ".join(sorted(unknown))
+        raise ValidationError(
+            f"relevant_doc_ids contains IDs not in context: {ids}"
+        )
 
 
 def _validate_context_ranks(

@@ -36,12 +36,20 @@ def _case(
     id: str = "case-1",
     query: Query | None = None,
     context: tuple[RetrievedContext, ...] | None = None,
+    relevant_doc_ids: frozenset[str] | None = None,
     expected_answer: str = "answer",
 ) -> BenchmarkCase:
+    ctx = context if context is not None else (_rc(),)
+    rel_ids = (
+        relevant_doc_ids
+        if relevant_doc_ids is not None
+        else frozenset(rc.document.id for rc in ctx)
+    )
     return BenchmarkCase(
         id=id,
         query=query or _query(),
-        context=context if context is not None else (_rc(),),
+        context=ctx,
+        relevant_doc_ids=rel_ids,
         expected_answer=expected_answer,
     )
 
@@ -144,3 +152,15 @@ def test_validate_empty_document_content() -> None:
     context = (_rc(doc=_doc(content="")),)
     with pytest.raises(ValidationError, match="content must not be empty"):
         validate_benchmark_case(_case(context=context))
+
+
+def test_validate_empty_relevant_doc_ids() -> None:
+    with pytest.raises(ValidationError, match="relevant_doc_ids must not be empty"):
+        validate_benchmark_case(_case(relevant_doc_ids=frozenset()))
+
+
+def test_validate_unknown_relevant_doc_id() -> None:
+    with pytest.raises(ValidationError, match="not in context"):
+        validate_benchmark_case(
+            _case(relevant_doc_ids=frozenset({"unknown-doc"}))
+        )

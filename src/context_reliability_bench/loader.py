@@ -51,6 +51,9 @@ def _parse_case(raw: Any, index: int) -> BenchmarkCase:
             _parse_retrieved_context(c, loc, i)
             for i, c in enumerate(context_raw)
         ),
+        relevant_doc_ids=frozenset(
+            _req_str_list(raw, "relevant_doc_ids", loc)
+        ),
         expected_answer=_req_str(raw, "expected_answer", loc),
     )
 
@@ -104,3 +107,15 @@ def _req_str(raw: Any, key: str, loc: str) -> str:
     if not isinstance(value, str):
         raise FixtureError(f"{loc}.{key} must be a string")
     return value
+
+
+def _req_str_list(raw: Any, key: str, loc: str) -> list[str]:
+    value = raw.get(key) if isinstance(raw, dict) else None
+    if not isinstance(value, list):
+        raise FixtureError(f"{loc}.{key} must be a JSON array")
+    result: list[str] = []
+    for i, item in enumerate(value):
+        if not isinstance(item, str):
+            raise FixtureError(f"{loc}.{key}[{i}] must be a string")
+        result.append(item)
+    return result
