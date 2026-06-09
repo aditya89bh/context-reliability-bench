@@ -1,4 +1,4 @@
-"""context-reliability-bench: benchmark for evaluating context reliability in language models."""
+"""context-reliability-bench: benchmark for evaluating context reliability."""
 
 __version__ = "0.1.0"
 
