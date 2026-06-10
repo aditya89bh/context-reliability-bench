@@ -8,22 +8,42 @@ from context_reliability_bench.models.benchmark_case import BenchmarkCase
 from context_reliability_bench.models.document import Document
 from context_reliability_bench.models.query import Query
 from context_reliability_bench.models.retrieved_context import RetrievedContext
+from context_reliability_bench.models.versioned_dataset import VersionedDataset
 
 
 class FixtureError(Exception):
     pass
 
 
-def load_fixture(path: Path) -> list[BenchmarkCase]:
+def _read_payload(path: Path) -> Any:
     try:
         raw = path.read_text(encoding="utf-8")
     except OSError as exc:
         raise FixtureError(f"Cannot read fixture file: {path}") from exc
     try:
-        payload: Any = json.loads(raw)
+        return json.loads(raw)
     except json.JSONDecodeError as exc:
         raise FixtureError(f"Invalid JSON in fixture file: {path}") from exc
-    return _parse_payload(payload)
+
+
+def load_fixture(path: Path) -> list[BenchmarkCase]:
+    return _parse_payload(_read_payload(path))
+
+
+def load_versioned_fixture(path: Path) -> VersionedDataset:
+    payload = _read_payload(path)
+    if not isinstance(payload, dict):
+        raise FixtureError("Fixture must be a JSON object with a 'cases' key")
+    fv = payload.get("format_version", "unknown")
+    cat = payload.get("category", "unknown")
+    format_version = fv if isinstance(fv, str) else "unknown"
+    category = cat if isinstance(cat, str) else "unknown"
+    cases = _parse_payload(payload)
+    return VersionedDataset(
+        format_version=format_version,
+        category=category,
+        cases=tuple(cases),
+    )
 
 
 def _parse_payload(payload: Any) -> list[BenchmarkCase]:

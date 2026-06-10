@@ -4,6 +4,7 @@ from context_reliability_bench.models.metric_result import MetricResult
 from context_reliability_bench.models.query import Query
 from context_reliability_bench.models.retrieved_context import RetrievedContext
 from context_reliability_bench.models.run_result import RunResult
+from context_reliability_bench.models.versioned_dataset import VersionedDataset
 
 __all__ = [
     "BenchmarkCase",
@@ -12,4 +13,5 @@ __all__ = [
     "Query",
     "RetrievedContext",
     "RunResult",
+    "VersionedDataset",
 ]
