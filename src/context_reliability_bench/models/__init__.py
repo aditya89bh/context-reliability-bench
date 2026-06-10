@@ -1,6 +1,7 @@
 from context_reliability_bench.models.benchmark_case import BenchmarkCase
 from context_reliability_bench.models.benchmark_metadata import BenchmarkMetadata
 from context_reliability_bench.models.document import Document
+from context_reliability_bench.models.leaderboard import Leaderboard, LeaderboardEntry
 from context_reliability_bench.models.manifest import (
     DatasetManifest,
     ManifestEntry,
@@ -17,6 +18,8 @@ __all__ = [
     "BenchmarkMetadata",
     "DatasetManifest",
     "Document",
+    "Leaderboard",
+    "LeaderboardEntry",
     "ManifestEntry",
     "ManifestError",
     "MetricResult",
