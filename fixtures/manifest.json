@@ -1,0 +1,33 @@
+{
+  "manifest_version": "1.0",
+  "datasets": [
+    {
+      "category": "noise_resistance",
+      "format_version": "1.0",
+      "path": "v1/noise_resistance.json",
+      "description": "Tests retrieval quality when relevant documents are ranked below noisy, irrelevant documents.",
+      "case_count": 3
+    },
+    {
+      "category": "contradiction",
+      "format_version": "1.0",
+      "path": "v1/contradiction.json",
+      "description": "Tests retrieval quality when context contains contradictory documents, only one of which is factually correct.",
+      "case_count": 3
+    },
+    {
+      "category": "temporal_relevance",
+      "format_version": "1.0",
+      "path": "v1/temporal_relevance.json",
+      "description": "Tests retrieval quality when context mixes documents from different time periods; the most current document is relevant.",
+      "case_count": 3
+    },
+    {
+      "category": "distractor",
+      "format_version": "1.0",
+      "path": "v1/distractor.json",
+      "description": "Tests retrieval quality when context is dominated by topically adjacent but off-target distractor documents.",
+      "case_count": 3
+    }
+  ]
+}
