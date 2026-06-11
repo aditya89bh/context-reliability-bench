@@ -9,3 +9,4 @@ from context_reliability_bench.models.metric_result import MetricResult
 class RunResult:
     run_id: str
     metric_results: tuple[MetricResult, ...]
+    seed: int | None = None

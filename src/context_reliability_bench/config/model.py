@@ -29,3 +29,4 @@ class BenchmarkConfig:
     output_json: str | None = None
     output_csv: str | None = None
     tags: frozenset[str] = field(default_factory=_empty_frozenset)
+    seed: int | None = None
