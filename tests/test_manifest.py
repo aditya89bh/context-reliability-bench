@@ -24,9 +24,9 @@ def test_manifest_version() -> None:
     assert manifest.manifest_version == "1.0"
 
 
-def test_manifest_has_four_datasets() -> None:
+def test_manifest_has_five_datasets() -> None:
     manifest = load_manifest(_MANIFEST_PATH)
-    assert len(manifest.datasets) == 4
+    assert len(manifest.datasets) == 5
 
 
 def test_manifest_categories_list() -> None:
@@ -37,6 +37,7 @@ def test_manifest_categories_list() -> None:
         "contradiction",
         "temporal_relevance",
         "distractor",
+        "large_dataset",
     }
 
 

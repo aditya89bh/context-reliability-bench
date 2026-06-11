@@ -28,6 +28,13 @@
       "path": "v1/distractor.json",
       "description": "Tests retrieval quality when context is dominated by topically adjacent but off-target distractor documents.",
       "case_count": 3
+    },
+    {
+      "category": "large_dataset",
+      "format_version": "1.0",
+      "path": "v1/large_dataset.json",
+      "description": "500-case fixture for performance and scale testing across multiple topic categories.",
+      "case_count": 500
     }
   ]
 }

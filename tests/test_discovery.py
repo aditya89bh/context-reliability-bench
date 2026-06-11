@@ -27,7 +27,7 @@ def test_list_datasets_returns_list() -> None:
 
 
 def test_list_datasets_count() -> None:
-    assert len(_discovery().list_datasets()) == 4
+    assert len(_discovery().list_datasets()) == 5
 
 
 def test_list_datasets_returns_manifest_entries() -> None:
@@ -42,6 +42,7 @@ def test_categories_returns_all_names() -> None:
         "contradiction",
         "temporal_relevance",
         "distractor",
+        "large_dataset",
     }
 
 
