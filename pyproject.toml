@@ -7,7 +7,7 @@ name = "context-reliability-bench"
 version = "0.1.0"
 description = "A benchmark for evaluating context reliability in language models"
 readme = "README.md"
-license = { text = "MIT" }
+license = { file = "LICENSE" }
 authors = [{ name = "Aditya", email = "aditya89bh@gmail.com" }]
 requires-python = ">=3.10"
 classifiers = [
