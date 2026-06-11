@@ -14,3 +14,6 @@ class RunResult:
     # ReproducibilityMetadata stored as Any to avoid circular imports;
     # type is context_reliability_bench.reproducibility.ReproducibilityMetadata
     reproducibility: Any = None
+    # BenchmarkTiming stored as Any to avoid circular imports;
+    # type is context_reliability_bench.timing.BenchmarkTiming
+    timing: Any = None
