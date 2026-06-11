@@ -65,6 +65,7 @@ omit = ["*/tests/*", "*/__main__.py"]
 show_missing = true
 skip_covered = false
 precision = 2
+fail_under = 80
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",
