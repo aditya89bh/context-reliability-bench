@@ -14,8 +14,9 @@ _ROOT = Path(__file__).parent.parent.parent
 class VersionSources:
     pyproject: str
     package: str
-    changelog_unreleased: bool  # True = Unreleased section present (no released tag)
-    git_tag: str | None  # e.g. "v0.1.0", or None if no tags match
+    changelog_unreleased: bool
+    git_tag: str | None
+    changelog_version: str | None  # e.g. "0.1.0" if [0.1.0] section present
 
 
 @dataclass(frozen=True)
@@ -41,6 +42,14 @@ def _read_package_version() -> str:
 def _read_changelog_unreleased() -> bool:
     text = (_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     return bool(re.search(r"^## \[Unreleased\]", text, re.MULTILINE))
+
+
+def _read_changelog_version(version: str) -> str | None:
+    """Return ``version`` if a ``## [version]`` section exists in CHANGELOG."""
+    text = (_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    escaped = re.escape(version)
+    m = re.search(rf"^## \[{escaped}\]", text, re.MULTILINE)
+    return version if m else None
 
 
 def _read_git_tag(version: str) -> str | None:
@@ -85,10 +94,16 @@ def repo_is_clean(root: Path = _ROOT) -> tuple[bool, list[str]]:
 
 
 def check_versions() -> VersionReport:
-    """Return a VersionReport describing cross-artefact version consistency."""
+    """Return a VersionReport describing cross-artefact version consistency.
+
+    Two valid lifecycle states:
+    - Pre-release: no git tag, CHANGELOG has [Unreleased] section.
+    - Post-release: git tag v{version} exists, CHANGELOG has [{version}] section.
+    """
     pyproject = _read_pyproject_version()
     package = _read_package_version()
     changelog_unreleased = _read_changelog_unreleased()
+    changelog_version = _read_changelog_version(pyproject)
     git_tag = _read_git_tag(pyproject)
 
     messages: list[str] = []
@@ -101,16 +116,26 @@ def check_versions() -> VersionReport:
             f"package __version__ ({package})"
         )
 
-    if not changelog_unreleased and git_tag is None:
-        consistent = False
-        messages.append(
-            f"No [Unreleased] section in CHANGELOG and no git tag v{pyproject}"
-        )
-
-    if git_tag is not None and changelog_unreleased:
-        messages.append(
-            f"Git tag {git_tag} exists but CHANGELOG still has [Unreleased] section"
-        )
+    if git_tag is None:
+        # Pre-release state: CHANGELOG must have [Unreleased] section
+        if not changelog_unreleased:
+            consistent = False
+            messages.append(
+                f"Pre-release: no git tag v{pyproject} and no [Unreleased] section "
+                f"in CHANGELOG"
+            )
+    else:
+        # Post-release state: CHANGELOG must have [{version}] section
+        if changelog_version is None:
+            consistent = False
+            messages.append(
+                f"Git tag {git_tag} exists but CHANGELOG has no [{pyproject}] section"
+            )
+        if changelog_unreleased:
+            consistent = False
+            messages.append(
+                f"Git tag {git_tag} exists but CHANGELOG still has [Unreleased] section"
+            )
 
     if consistent and not messages:
         messages.append(f"All version sources agree on {pyproject}")
@@ -120,6 +145,7 @@ def check_versions() -> VersionReport:
         package=package,
         changelog_unreleased=changelog_unreleased,
         git_tag=git_tag,
+        changelog_version=changelog_version,
     )
     return VersionReport(
         sources=sources,

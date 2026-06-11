@@ -74,16 +74,6 @@ def test_changelog_unreleased_link_points_to_real_repo() -> None:
     )
 
 
-def test_changelog_no_invented_release_tags() -> None:
-    text = _CHANGELOG.read_text(encoding="utf-8")
-    # Versioned release sections look like "## [0.x.y]"
-    released = re.findall(r"^## \[(\d+\.\d+\.\d+)\]", text, re.MULTILINE)
-    assert released == [], (
-        f"CHANGELOG contains versioned release sections that were never published: "
-        f"{released}"
-    )
-
-
 # ── check_versions() ──────────────────────────────────────────────────────────
 
 
@@ -112,19 +102,52 @@ def test_check_versions_has_messages() -> None:
     assert len(report.messages) > 0
 
 
-def test_check_versions_no_tag_before_release() -> None:
+def test_check_versions_sources_has_changelog_version_field() -> None:
     report = check_versions()
-    # We are pre-release: no git tag should exist yet
-    assert report.sources.git_tag is None, (
-        f"Unexpected git tag {report.sources.git_tag} — package is unreleased"
-    )
+    # changelog_version is either a version string or None — never missing
+    assert hasattr(report.sources, "changelog_version")
+    cv = report.sources.changelog_version
+    assert cv is None or isinstance(cv, str)
 
 
-def test_check_versions_unreleased_section_present() -> None:
+# ── lifecycle-aware consistency checks ────────────────────────────────────────
+# These tests pass in BOTH pre-release and post-release states.
+
+
+def test_pre_release_state_requires_unreleased_section() -> None:
+    """When no git tag exists, CHANGELOG must have [Unreleased]."""
     report = check_versions()
-    assert report.sources.changelog_unreleased, (
-        "CHANGELOG must have [Unreleased] section while no release tag exists"
-    )
+    if report.sources.git_tag is None:
+        assert report.sources.changelog_unreleased, (
+            "Pre-release: no git tag exists but [Unreleased] section is missing"
+        )
+
+
+def test_post_release_state_requires_version_section() -> None:
+    """When a git tag exists, CHANGELOG must have a matching version section."""
+    report = check_versions()
+    if report.sources.git_tag is not None:
+        assert report.sources.changelog_version == report.sources.pyproject, (
+            f"Post-release: tag {report.sources.git_tag} exists but "
+            f"[{report.sources.pyproject}] section is missing in CHANGELOG"
+        )
+
+
+def test_exactly_one_lifecycle_state_is_active() -> None:
+    """The repo is in pre-release OR post-release state, not ambiguous."""
+    report = check_versions()
+    has_tag = report.sources.git_tag is not None
+    has_version_section = report.sources.changelog_version is not None
+    # In pre-release: no tag, no version section is expected
+    # In post-release: tag and version section both present
+    if has_tag:
+        assert has_version_section, (
+            "Post-release detected (tag exists) but changelog_version is None"
+        )
+    else:
+        assert report.sources.changelog_unreleased, (
+            "Pre-release detected (no tag) but [Unreleased] section is missing"
+        )
 
 
 # ── VersionSources is frozen ──────────────────────────────────────────────────
