@@ -12,6 +12,7 @@ from context_reliability_bench.cache import (
     BenchmarkCache,
     CacheError,
     make_cache_key,
+    make_retriever_cache_key,
 )
 from context_reliability_bench.config.model import BenchmarkConfig
 from context_reliability_bench.models.metric_result import MetricResult
@@ -266,3 +267,75 @@ def test_disk_cache_stale_entry_after_fixture_change(tmp_path: Path) -> None:
     key_after = make_cache_key(cfg)
     assert key_before.digest() != key_after.digest()
     assert cache.get(key_after) is None
+
+
+# ── retriever identity ────────────────────────────────────────────────────────
+
+
+def test_retriever_key_has_retriever_name() -> None:
+    key = make_retriever_cache_key(_cfg(), "bm25")
+    assert key.retriever_name == "bm25"
+
+
+def test_retriever_key_different_retriever_different_digest() -> None:
+    key_bm25 = make_retriever_cache_key(_cfg(), "bm25")
+    key_inmem = make_retriever_cache_key(_cfg(), "in_memory")
+    assert key_bm25.digest() != key_inmem.digest()
+
+
+def test_retriever_key_same_retriever_same_digest() -> None:
+    k1 = make_retriever_cache_key(_cfg(run_id="r", seed=5), "bm25")
+    k2 = make_retriever_cache_key(_cfg(run_id="r", seed=5), "bm25")
+    assert k1.digest() == k2.digest()
+
+
+def test_retriever_key_differs_from_plain_cache_key() -> None:
+    plain = make_cache_key(_cfg())
+    retriever = make_retriever_cache_key(_cfg(), "bm25")
+    assert plain.digest() != retriever.digest()
+
+
+def test_retriever_key_empty_name_equals_plain_key() -> None:
+    plain = make_cache_key(_cfg())
+    empty_retriever = make_retriever_cache_key(_cfg(), "")
+    assert plain.digest() == empty_retriever.digest()
+
+
+def test_different_retrievers_cannot_share_cached_result() -> None:
+    cache = BenchmarkCache()
+    key_bm25 = make_retriever_cache_key(_cfg(), "bm25")
+    key_vec = make_retriever_cache_key(_cfg(), "vector")
+    cache.put(key_bm25, _result("bm25-run"))
+    # A different retriever must not find the bm25 result
+    assert cache.get(key_vec) is None
+
+
+def test_different_retrievers_store_independently() -> None:
+    cache = BenchmarkCache()
+    key_bm25 = make_retriever_cache_key(_cfg(), "bm25")
+    key_vec = make_retriever_cache_key(_cfg(), "vector")
+    cache.put(key_bm25, _result("bm25-run"))
+    cache.put(key_vec, _result("vec-run"))
+    assert cache.get(key_bm25).run_id == "bm25-run"  # type: ignore[union-attr]
+    assert cache.get(key_vec).run_id == "vec-run"  # type: ignore[union-attr]
+
+
+def test_retriever_key_digest_is_deterministic() -> None:
+    k1 = make_retriever_cache_key(_cfg(run_id="det", seed=0), "bm25")
+    k2 = make_retriever_cache_key(_cfg(run_id="det", seed=0), "bm25")
+    assert k1.digest() == k2.digest()
+
+
+def test_retriever_key_different_seed_different_digest() -> None:
+    k1 = make_retriever_cache_key(_cfg(seed=1), "bm25")
+    k2 = make_retriever_cache_key(_cfg(seed=2), "bm25")
+    assert k1.digest() != k2.digest()
+
+
+def test_retriever_key_disk_cache_no_cross_retriever_hit(tmp_path: Path) -> None:
+    cache = BenchmarkCache(cache_dir=tmp_path)
+    key_a = make_retriever_cache_key(_cfg(), "retriever-a")
+    cache.put(key_a, _result("a"))
+    key_b = make_retriever_cache_key(_cfg(), "retriever-b")
+    cache2 = BenchmarkCache(cache_dir=tmp_path)
+    assert cache2.get(key_b) is None

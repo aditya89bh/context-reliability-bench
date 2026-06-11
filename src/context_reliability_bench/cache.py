@@ -17,16 +17,23 @@ class CacheError(Exception):
 
 @dataclass(frozen=True)
 class CacheKey:
-    """Unique identifier for a benchmark result entry."""
+    """Unique identifier for a benchmark result entry.
+
+    *retriever_name* identifies which retriever produced the results.  It is
+    the empty string for config-based (pre-computed context) benchmarks.
+    Different retrievers must never share a cache entry even when all other
+    key components are identical.
+    """
 
     fixture_hash: str
     metric_names: tuple[str, ...]
     k: int
     seed: int | None
     run_id: str
+    retriever_name: str = ""
 
     def digest(self) -> str:
-        """SHA-256 hex digest of all key components."""
+        """SHA-256 hex digest of all key components including retriever identity."""
         raw = json.dumps(
             {
                 "fixture_hash": self.fixture_hash,
@@ -34,6 +41,7 @@ class CacheKey:
                 "k": self.k,
                 "seed": self.seed,
                 "run_id": self.run_id,
+                "retriever_name": self.retriever_name,
             },
             sort_keys=True,
         ).encode()
@@ -50,12 +58,33 @@ def _fixture_hash(fixture_path: str) -> str:
 
 
 def make_cache_key(config: BenchmarkConfig) -> CacheKey:
+    """Build a cache key for a config-based (pre-computed context) benchmark."""
     return CacheKey(
         fixture_hash=_fixture_hash(config.fixture_path),
         metric_names=config.metric_names,
         k=config.k,
         seed=config.seed,
         run_id=config.run_id,
+        retriever_name="",
+    )
+
+
+def make_retriever_cache_key(
+    config: BenchmarkConfig,
+    retriever_name: str,
+) -> CacheKey:
+    """Build a cache key that includes the retriever's identity.
+
+    Results from different retrievers must never collide even when dataset,
+    metrics, k, seed, and run_id are identical.
+    """
+    return CacheKey(
+        fixture_hash=_fixture_hash(config.fixture_path),
+        metric_names=config.metric_names,
+        k=config.k,
+        seed=config.seed,
+        run_id=config.run_id,
+        retriever_name=retriever_name,
     )
 
 
