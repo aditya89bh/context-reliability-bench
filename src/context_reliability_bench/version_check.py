@@ -58,6 +58,32 @@ def _read_git_tag(version: str) -> str | None:
         return None
 
 
+def dirty_files(porcelain_output: str) -> list[str]:
+    """Return non-empty lines from ``git status --porcelain`` output.
+
+    Every line represents a file that is modified, staged, or untracked.
+    `git status --porcelain` already excludes gitignored files, so no extra
+    filtering is needed.
+    """
+    return [line for line in porcelain_output.splitlines() if line]
+
+
+def repo_is_clean(root: Path = _ROOT) -> tuple[bool, list[str]]:
+    """Return (True, []) when the working tree is clean, else (False, dirty_lines)."""
+    try:
+        result = subprocess.run(
+            ["git", "status", "--porcelain"],
+            capture_output=True,
+            text=True,
+            cwd=root,
+            timeout=10,
+        )
+        files = dirty_files(result.stdout)
+        return (not files, files)
+    except (subprocess.SubprocessError, FileNotFoundError):
+        return (False, ["git not available"])
+
+
 def check_versions() -> VersionReport:
     """Return a VersionReport describing cross-artefact version consistency."""
     pyproject = _read_pyproject_version()

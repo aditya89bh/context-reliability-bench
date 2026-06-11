@@ -102,15 +102,10 @@ def check_repo_clean() -> bool:
     print(f"\n{'='*60}")
     print("  Repository cleanliness")
     print(f"{'='*60}")
-    result = subprocess.run(
-        ["git", "status", "--porcelain"],
-        capture_output=True, text=True, cwd=str(_ROOT),
-    )
-    dirty = [
-        line for line in result.stdout.splitlines()
-        if not line.startswith("??")   # untracked files are OK
-    ]
-    if dirty:
+    sys.path.insert(0, str(_ROOT / "src"))
+    from context_reliability_bench.version_check import repo_is_clean
+    clean, dirty = repo_is_clean(_ROOT)
+    if not clean:
         print("  Uncommitted changes:")
         for line in dirty:
             print(f"    {line}")
